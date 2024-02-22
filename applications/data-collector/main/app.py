@@ -2,7 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://stanjfsabfltsg:0372cf3be7d1ca33afaf6076e4eab72c58eec9433513f1219a00a0bfea30fd28@ec2-52-1-92-133.compute-1.amazonaws.com:5432/dds9omudjauuqc'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://stanjfsabfltsg:0372cf3be7d1ca33afaf6076e4eab72c58eec9433513f1219a00a0bfea30fd28@ec2-52-1-92-133.compute-1.amazonaws.com:5432/dds9omudjauuqc'
 db = SQLAlchemy(app)
 
 from EndpointWorker import WeatherEndpointWorker, GeolocatorEndpointWorker
