@@ -1,0 +1,27 @@
+import requests
+
+
+
+def get_forecast(zone_uri: str) -> str:
+    res = requests.get(zone_uri)
+    print("Forecast status code: " + str(res.status_code))
+    return res.json()
+
+def get_latlng(zip_code: str) -> str:
+    api_key = 'd3857ffcbdaafd5ed01c1989e2ee13aa'
+    res = requests.get(f"http://api.openweathermap.org/geo/1.0/zip?zip={zip_code},US&appid={api_key}")
+    print(res.status_code)
+    return res.text
+
+def get_zone(lat: float, lng: float) -> str:
+    res = requests.get(f"https://api.weather.gov/points/{lat},{lng}")
+    print("Point request status code: " + str(res.status_code))
+    properties = res.json()["properties"]
+    print(properties)
+    zone_uri = properties["forecastZone"]
+    return zone_uri
+
+
+if __name__ == "__main__":
+    zone_uri = get_zone(41.801990, -70.595630)
+    forecast = get_forecast(zone_uri)
