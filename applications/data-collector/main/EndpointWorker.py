@@ -23,9 +23,12 @@ class GeolocatorEndpointWorker:
     def __init__(self):
         pass
     
-    def get_latlng(zip_code: str) -> str:
+    def get_latlng(self, zip_code: str) -> str:
         api_key = 'd3857ffcbdaafd5ed01c1989e2ee13aa'
         res = requests.get(f"http://api.openweathermap.org/geo/1.0/zip?zip={zip_code},US&appid={api_key}")
-        print(res.status_code)
-        return res.text
+        print("Geolocator status code: " + str(res.status_code))
+        message = res.json()
+        lat = message['lat']
+        long = message['lon']
+        return (lat, long)
 
