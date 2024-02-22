@@ -1,1 +1,1 @@
-web: gunicorn applications.web-app.main.app:app
+web: gunicorn applications.data-collector.main.app:app

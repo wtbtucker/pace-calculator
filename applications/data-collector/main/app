@@ -1,27 +1,35 @@
-import requests
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://stanjfsabfltsg:0372cf3be7d1ca33afaf6076e4eab72c58eec9433513f1219a00a0bfea30fd28@ec2-52-1-92-133.compute-1.amazonaws.com:5432/dds9omudjauuqc'
+db = SQLAlchemy(app)
+
+from EndpointWorker import WeatherEndpointWorker, GeolocatorEndpointWorker
+
+class Gridpoints(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    wfo = db.Column(db.Text)
+    grid_x = db.Column(db.Integer)
+    grid_y = db.Column(db.Integer)
+
+class Zipcodes(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    code = db.Column(db.String(5), nullable=False, unique=True)
+    gridpoint = db.Column(db.Integer, db.ForeignKey('Gridpoints.id'))
+
+class Weather(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    start_time = db.Column(db.DateTime)
+    temperature = db.Column(db.Float)
+    dew_point = db.Column(db.Float)
+    forecast = db.Column(db.Text)
+    gridpoint = db.Column(db.Integer, db.ForeignKey('Gridpoints.id'))
 
 
-
-def get_forecast(zone_uri: str) -> str:
-    res = requests.get(zone_uri)
-    print("Forecast status code: " + str(res.status_code))
-    return res.json()
-
-def get_latlng(zip_code: str) -> str:
-    api_key = 'd3857ffcbdaafd5ed01c1989e2ee13aa'
-    res = requests.get(f"http://api.openweathermap.org/geo/1.0/zip?zip={zip_code},US&appid={api_key}")
-    print(res.status_code)
-    return res.text
-
-def get_zone(lat: float, lng: float) -> str:
-    res = requests.get(f"https://api.weather.gov/points/{lat},{lng}")
-    print("Point request status code: " + str(res.status_code))
-    properties = res.json()["properties"]
-    print(properties)
-    zone_uri = properties["forecastZone"]
-    return zone_uri
-
-
-if __name__ == "__main__":
-    zone_uri = get_zone(41.801990, -70.595630)
-    forecast = get_forecast(zone_uri)
+@app.route("/")
+def get_weather():
+    weather_worker = WeatherEndpointWorker()
+    wfo, grid_x, grid_y = weather_worker.get_gridpoint(41.801990, -70.595630)
+    forecast = weather_worker.get_forecast(wfo, grid_x, grid_y)
+    print(forecast["properties"]["periods"][0])
