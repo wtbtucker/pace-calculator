@@ -32,4 +32,4 @@ def get_weather():
     weather_worker = WeatherEndpointWorker()
     wfo, grid_x, grid_y = weather_worker.get_gridpoint(41.801990, -70.595630)
     forecast = weather_worker.get_forecast(wfo, grid_x, grid_y)
-    print(forecast["properties"]["periods"][0])
+    return forecast["properties"]["periods"][0]
