@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/weather'
@@ -55,5 +56,19 @@ def get_weather():
         grid_x = gridpoint.grid_x
         grid_y = gridpoint.grid_y
 
-    forecast = weather_worker.get_forecast(wfo, grid_x, grid_y)
-    return forecast["properties"]["periods"][0]
+    full_forecast = weather_worker.get_forecast(wfo, grid_x, grid_y)
+    for forecast in full_forecast["properties"]["periods"]:
+        # dew point in Celsius
+        dew_point = forecast["dewpoint"]["value"]
+        # temperature in Farenheit
+        temperature = forecast["temperature"]
+        description = forecast["shortForecast"]
+
+        start_time = datetime.strptime(forecast["startTime"][:19], "%Y-%m-%dT%H:%M:%S")
+        print(start_time)
+
+        new_forecast = Weather(start_time=start_time, temperature=temperature, dew_point=dew_point, forecast=description, gridpoint=gridpoint.id)
+        db.session.add(new_forecast)
+        db.session.commit()
+
+    return full_forecast["properties"]["periods"]
