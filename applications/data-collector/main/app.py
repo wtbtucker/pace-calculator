@@ -1,7 +1,5 @@
 from flask import Flask
 
-from datetime import datetime
-
 app = Flask(__name__)
 
 from EndpointWorker import WeatherEndpointWorker, GeolocatorEndpointWorker
@@ -36,8 +34,7 @@ def get_weather():
         # temperature in Farenheit
         temperature = forecast["temperature"]
         description = forecast["shortForecast"]
-
-        start_time = datetime.strptime(forecast["startTime"][:19], "%Y-%m-%dT%H:%M:%S")
+        start_time = forecast["startTime"]
 
         gateway.insert_weather(start_time, temperature, dew_point, description, gridpoint.id)
 
