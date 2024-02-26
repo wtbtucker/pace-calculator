@@ -10,10 +10,13 @@ def index():
     return render_template('index.html')
 
 @main.route("/forecast", methods=["POST"])
-def echo_input():
-    input_text = request.form.get("user_zip_code", "")
-    forecast = requests.get('http://localhost:2000/forecast').json()
-    return render_template('forecast.html', user_zip_code = input_text, forecast=forecast)
+def forecast():
+    if request.method == "POST":
+        input_text = request.form.get("user_zip_code", "")
+        forecast = requests.get('http://localhost:2000/forecast').json()
+        return render_template('forecast.html', user_zip_code = input_text, forecast=forecast)
+    else:
+        return "404 not found"
 
 @main.route("/about")
 def about():
