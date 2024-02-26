@@ -1,15 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Pace Calculator</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Home {% endblock %}</h1>
     <h1>Welcome!</h1><br>
     <form action="/forecast" method="POST">
         <input name="user_zip_code">
         <input type="submit" value="Submit">
         <label for="user_zip_code">Zip Code</label><br>
     </form>
-</body>
-</html>
+    <h3>{{ utc_dt }}</h3>
+{% endblock %}
