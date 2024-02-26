@@ -13,3 +13,7 @@ def main():
 def echo_input():
     input_text = request.form.get("user_zip_code", "")
     return "Your zip code: " + input_text
+
+@app.route("/about")
+def about():
+    return render_template('about.html')
