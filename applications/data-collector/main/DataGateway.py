@@ -1,17 +1,11 @@
-from flask_sqlalchemy import SQLAlchemy
+from extensions import db
 from datetime import datetime
-from app import app
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/weather'
-db = SQLAlchemy(app)
-with app.app_context():
-    db.create_all()
 
 from Models import Zipcodes, Gridpoints, Weather
 
 class DataGateway:
     def __init__(self):
         pass
-        
         
     def insert_zipcode(self, zipcode, gridpoint):
         new_zipcode = Zipcodes(code=zipcode, gridpoint=gridpoint.id)

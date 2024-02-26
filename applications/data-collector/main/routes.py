@@ -1,11 +1,10 @@
-from flask import Flask
-
-app = Flask(__name__)
-
+from flask import Blueprint
 from EndpointWorker import WeatherEndpointWorker, GeolocatorEndpointWorker
 from DataGateway import DataGateway
 
-@app.route("/")
+data_collector = Blueprint("data_collector", __name__)
+
+@data_collector.route("/")
 def get_weather():
     gateway = DataGateway()
     weather_worker = WeatherEndpointWorker()
