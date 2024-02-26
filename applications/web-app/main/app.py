@@ -12,8 +12,10 @@ def main():
 @app.route("/forecast", methods=["POST"])
 def echo_input():
     input_text = request.form.get("user_zip_code", "")
-    return "Your zip code: " + input_text
+    forecast = ['Sunny', 'Cloudy', 'Partly Sunny']
+    return render_template('forecast.html', user_zip_code = input_text, forecast=forecast)
 
 @app.route("/about")
 def about():
     return render_template('about.html')
+
