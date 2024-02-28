@@ -23,3 +23,6 @@ class SimpleForecasts(db.Model):
     weather = db.Column(db.Text)
     zone = db.Column(db.String(6), db.ForeignKey(Zones.id))
 
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
