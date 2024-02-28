@@ -1,6 +1,6 @@
 from flask import Blueprint
 from EndpointWorker import WeatherEndpointWorker, GeolocatorEndpointWorker
-from DataGateway import DataGateway
+from backend.DataGateway import DataGateway
 
 data_collector_bp = Blueprint("data_collector", __name__)
 

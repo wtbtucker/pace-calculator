@@ -1,4 +1,4 @@
-from DataGateway import db
+from extensions import db
 
 class Gridpoints(db.Model):
     id = db.Column(db.Integer, primary_key=True)
