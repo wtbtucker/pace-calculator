@@ -4,6 +4,11 @@ from backend.DataGateway import DataGateway
 
 data_collector_bp = Blueprint("data_collector", __name__)
 
+def split_zone_url(zone_url: str) -> tuple[str, str]:
+    "https://api.weather.gov/zones/forecast/MAZ014"
+    split_url = zone_url.split('/')
+    return (split_url[5], split_url[4])
+
 @data_collector_bp.route("/")
 def get_weather():
     gateway = DataGateway()
@@ -14,27 +19,23 @@ def get_weather():
     if zipcode_entry is None:
         geo_worker = GeolocatorEndpointWorker()
         lat, long = geo_worker.get_latlng(zipcode)
-        wfo, grid_x, grid_y = weather_worker.get_gridpoint(lat, long)
-        gateway.insert_gridpoint(wfo, grid_x, grid_y)
-
-        gridpoint = gateway.find_gridpoint(wfo, grid_x, grid_y)
-        gateway.insert_zipcode(zipcode, gridpoint)
+        zone_url = weather_worker.get_zone(lat, long)
+        zone_id, zone_type = split_zone_url(zone_url)
+        gateway.insert_zone(zone_id, zone_type)
+        gateway.insert_zipcode(zipcode, zone_id)
     else:
-        gridpoint_id = zipcode_entry.gridpoint
-        gridpoint = gateway.get_gridpoint(gridpoint_id)
-        wfo = gridpoint.wfo
-        grid_x = gridpoint.grid_x
-        grid_y = gridpoint.grid_y
+        zone_id = zipcode_entry.zone
+        zone = gateway.get_zone(zone_id)
+        zone_type = zone.type
 
-    full_forecast = weather_worker.get_forecast(wfo, grid_x, grid_y)
-    for forecast in full_forecast["properties"]["periods"]:
-        # dew point in Celsius
-        dew_point = forecast["dewpoint"]["value"]
-        # temperature in Farenheit
-        temperature = forecast["temperature"]
-        description = forecast["shortForecast"]
-        start_time = forecast["startTime"]
+    simple_forecast = weather_worker.get_forecast(zone_id, zone_type)
+    for period in simple_forecast["properties"]["periods"]:
+        gateway.insert_simple_forecast(period, zone_id)
 
-        gateway.insert_weather(start_time, temperature, dew_point, description, gridpoint.id)
+    return simple_forecast["properties"]["periods"]
 
-    return full_forecast["properties"]["periods"]
+@data_collector_bp.route("/zones")
+def zones():
+    worker = WeatherEndpointWorker()
+    zone_list = worker.get_zones()
+    return [f"{zone['id']}" for zone in zone_list]

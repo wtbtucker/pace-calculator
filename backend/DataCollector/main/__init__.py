@@ -7,9 +7,14 @@ from DataCollectorRoutes import data_collector_bp
 def create_app(database_url='postgresql://postgres:postgres@localhost/weather'):
     app = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = database_url
-    # with app.app_context():
-    #     db.create_all()
 
     db.init_app(app)
+
+    create_tables=os.getenv('CREATE_TABLES', False)
+    if create_tables:
+        with app.app_context():
+            db.create_all()
+
+    
     app.register_blueprint(data_collector_bp)
     return app

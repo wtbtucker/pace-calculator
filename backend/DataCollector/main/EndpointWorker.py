@@ -4,20 +4,21 @@ class WeatherEndpointWorker:
     def __init__(self):
         pass
 
-    def get_gridpoint(self, lat: float, lng: float) -> str:
+    def get_zone(self, lat: float, lng: float) -> str:
         res = requests.get(f"https://api.weather.gov/points/{lat},{lng}")
         print("Point request status code: " + str(res.status_code))
         properties = res.json()["properties"]
-        wfo = properties["gridId"]
-        grid_x = properties["gridX"]
-        grid_y = properties["gridY"]
-        return (wfo, grid_x, grid_y)
+        return properties["forecastZone"]
     
-    
-    def get_forecast(self, grid_id: str, grid_x: str, grid_y: str) -> str:
-        res = requests.get(f"https://api.weather.gov/gridpoints/{grid_id}/{grid_x},{grid_y}/forecast/hourly")
+    def get_forecast(self, zone_id: str, type: str) -> str:
+        res = requests.get(f"https://api.weather.gov/zones/{type}/{zone_id}/forecast")
         print("Forecast status code: " + str(res.status_code))
         return res.json()
+    
+    def get_zones(self) -> str:
+        res = requests.get("https://api.weather.gov/zones")
+        print("Zones status code: " + str(res.status_code))
+        return res.json()["features"]
 
 class GeolocatorEndpointWorker:
     def __init__(self):
