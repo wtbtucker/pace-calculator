@@ -19,7 +19,7 @@ class Weather(db.Model):
 
 class SimpleForecasts(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    start_time = db.Column(db.DateTime)
+    start_time = db.Column(db.Text)
     weather = db.Column(db.Text)
     zone = db.Column(db.String(6), db.ForeignKey(Zones.id))
 

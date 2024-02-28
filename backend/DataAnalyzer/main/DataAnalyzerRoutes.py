@@ -10,7 +10,7 @@ def get_forecast(zip_code: str) -> str:
     full_forecast = gateway.find_simple_forecast(zip_code_entry.zone)
     return full_forecast.weather
 
-
+# TODO: return 7 day forecast instead of first entry
 @data_analyzer_bp.route("/forecast/<zip_code>")
 def forecast(zip_code):
     return get_forecast(zip_code)

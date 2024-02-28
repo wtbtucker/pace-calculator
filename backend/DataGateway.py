@@ -24,15 +24,16 @@ class DataGateway:
         db.session.commit()
     
     def insert_simple_forecast(self, period: str, id: str):
-        converted_time = self._convert_time_descriptor(period["name"])
+        start_time = period["name"]
         weather = period["detailedForecast"]
-        new_simple_forecast = SimpleForecasts(start_time=converted_time, weather=weather, zone=id)
+        new_simple_forecast = SimpleForecasts(start_time=start_time, weather=weather, zone=id)
         db.session.merge(new_simple_forecast)
         db.session.commit()
     
     def find_weather(self, id):
         return Weather.query.filter_by(zone=id).first()
 
+    # TODO: return 7 day forecast instead of first entry
     def find_simple_forecast(self, id):
         return SimpleForecasts.query.filter_by(zone=id).first()
     
@@ -44,20 +45,3 @@ class DataGateway:
     
     def _convert_time(self, start_time: str):
         return datetime.strptime(start_time[:19], "%Y-%m-%dT%H:%M:%S")
-    
-    def _convert_time_descriptor(self, time_description: str):
-        text_to_hour = {
-            "This Afternoon": 12,
-            "Tonight": 18
-        }
-        current_datetime = datetime.now()
-        if time_description in text_to_hour:
-            new_datetime = current_datetime.replace(hour=text_to_hour[time_description])
-        else:
-            new_datetime = self._date_for_weekday(time_description).replace(hour=0)
-        return new_datetime
-
-    def _date_for_weekday(self, weekday: str) -> datetime:
-        weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-        today = datetime.now()
-        return today + timedelta(weekdays.index(weekday) - today.weekday())
