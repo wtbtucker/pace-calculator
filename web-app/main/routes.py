@@ -13,8 +13,9 @@ def index():
 def forecast():
     if request.method == "POST":
         input_text = request.form.get("user_zip_code", "")
-        forecast = requests.get('http://localhost:2000/forecast').json()
-        return render_template('forecast.html', user_zip_code = input_text, forecast=forecast)
+        forecast = requests.get(f"http://localhost:5001/forecast/{input_text}")
+        print("Get forecast status code: " + str(forecast.status_code))
+        return render_template('forecast.html', user_zip_code = input_text, forecast=forecast.text)
     else:
         return "404 not found"
 

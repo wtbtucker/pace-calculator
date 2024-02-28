@@ -32,6 +32,9 @@ class DataGateway:
     
     def find_weather(self, id):
         return Weather.query.filter_by(zone=id).first()
+
+    def find_simple_forecast(self, id):
+        return SimpleForecasts.query.filter_by(zone=id).first()
     
     def find_zipcode(self, zipcode):
         return Zipcodes.query.filter_by(code=zipcode).first()
