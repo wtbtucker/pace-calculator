@@ -20,15 +20,13 @@ class TestDataGateway:
         converted_time = self.gateway._convert_time("2024-02-29T08:00:00-05:00")
         assert converted_time == datetime(2024,2,29,hour=8)
 
-    def test_insert_gridpoint(self):
-        assert 1 == 1
 
-    def test_insert_weather(self):
-        assert 1 == 1
-        # self.gateway.insert_weather("2024-02-24T10:00:00-05:00",30,-8.33,"Cloudy",self.gridpoint.id)
-        # weather_entry = self.gateway.find_weather(self.gridpoint.id)
-        # assert weather_entry.temperature == 30
-        # assert weather_entry.dew_point == -8.33
+    def test_insert_weather(self, app):
+        with app.app_context():
+            self.gateway.insert_weather("2024-02-24T10:00:00-05:00",30,-8.33,"Cloudy",self.zone)
+            weather_entry = self.gateway.find_weather(self.zone)
+            assert weather_entry.temperature == 30
+            assert weather_entry.dew_point == -8.33
 
 if __name__ == "__main__":
     retcode = pytest.main()
