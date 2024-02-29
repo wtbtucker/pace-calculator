@@ -1,5 +1,5 @@
 from extensions import db
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from Models import Zipcodes, Zones, Weather, SimpleForecasts
 
