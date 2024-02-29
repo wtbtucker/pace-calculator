@@ -8,8 +8,7 @@ def split_zone_url(zone_url: str) -> tuple[str, str]:
     split_url = zone_url.split('/')
     return (split_url[5], split_url[4])
 
-def handle_new_zipcode(gateway: DataGateway, weather_worker: WeatherEndpointWorker, zipcode: str) -> tuple[str, str]:
-    geo_worker = GeolocatorEndpointWorker()
+def handle_new_zipcode(gateway: DataGateway, weather_worker: WeatherEndpointWorker, geo_worker: GeolocatorEndpointWorker, zipcode: str) -> tuple[str, str]:
     lat, long = geo_worker.get_latlng(zipcode)
     zone_url = weather_worker.get_zone(lat, long)
     zone_id, zone_type = split_zone_url(zone_url)
@@ -33,10 +32,11 @@ def fetch_and_insert_forecast(gateway: DataGateway, weather_worker: WeatherEndpo
 def get_weather():
     gateway = DataGateway()
     weather_worker = WeatherEndpointWorker()
+    geo_worker = GeolocatorEndpointWorker()
     zipcode = '02108'
     zipcode_entry = gateway.find_zipcode(zipcode)
     if zipcode_entry is None:
-        zone_id, zone_type = handle_new_zipcode(gateway, weather_worker, zipcode)
+        zone_id, zone_type = handle_new_zipcode(gateway, weather_worker, geo_worker, zipcode)
     else:
         zone_id, zone_type = handle_existing_zipcode(zipcode_entry, gateway)
     return fetch_and_insert_forecast(gateway, weather_worker, zone_id, zone_type)

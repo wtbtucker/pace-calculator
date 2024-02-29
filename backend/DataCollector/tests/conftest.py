@@ -26,15 +26,18 @@ def client(app):
 def mock_geo_worker(mocker):
     mock_instance = Mock()
     mock_instance.get_latlng.return_value = (42.4224, -71.1087)
-    return mocker.patch('backend.DataCollector.main.EndpointWorker.GeolocatorEndpointWorker', mock_instance)
+    mocker.patch('backend.DataCollector.main.EndpointWorker.GeolocatorEndpointWorker', mock_instance)
+    return mock_instance
 
 @pytest.fixture
 def mock_weather_worker(mocker):
     mock_instance = Mock()
     mock_instance.get_zone.return_value = 'https://api.weather.gov/zones/forecast/MAZ014'
-    return mocker.patch('backend.DataCollector.main.EndpointWorker.WeatherEndpointWorker', mock_instance)
+    mocker.patch('backend.DataCollector.main.EndpointWorker.WeatherEndpointWorker', mock_instance)
+    return mock_instance
 
 @pytest.fixture
 def mock_gateway(mocker):
     mock_instance = Mock()
-    return mocker.patch('backend.DataGateway', mock_instance)
+    mocker.patch('backend.DataGateway', mock_instance)
+    return mock_instance
