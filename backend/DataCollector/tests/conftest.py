@@ -2,6 +2,7 @@ import pytest
 from unittest.mock import Mock
 from DataCollector.main import create_app
 from DataGateway import DataGateway
+from Models import Zones
 from extensions import db
 
 @pytest.fixture()
@@ -40,5 +41,6 @@ def mock_weather_worker(mocker):
 @pytest.fixture
 def mock_gateway(mocker):
     mock_instance = Mock()
+    mock_instance.get_zone.return_value = Zones(id='MAZ014', type='forecast')
     mocker.patch('backend.DataGateway', mock_instance)
     return mock_instance
