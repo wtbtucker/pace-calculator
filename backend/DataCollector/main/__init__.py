@@ -15,6 +15,5 @@ def create_app(database_url='postgresql://weather_0kgp_user:EKj5lznn7a8MkhWfFyLo
         with app.app_context():
             db.create_all()
 
-    
     app.register_blueprint(data_collector_bp)
     return app
