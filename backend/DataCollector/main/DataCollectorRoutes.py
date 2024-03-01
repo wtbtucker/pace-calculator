@@ -1,7 +1,6 @@
 from flask import Blueprint
 from EndpointWorker import WeatherEndpointWorker, GeolocatorEndpointWorker
 from backend.DataGateway import DataGateway
-
 data_collector_bp = Blueprint("data_collector", __name__)
 
 def split_zone_url(zone_url: str) -> tuple[str, str]:
@@ -24,6 +23,7 @@ def handle_existing_zipcode(zipcode_entry, gateway: DataGateway) -> tuple[str, s
 
 def fetch_and_insert_forecast(gateway: DataGateway, weather_worker: WeatherEndpointWorker, zone_id: str, zone_type: str) -> str:
     simple_forecast = weather_worker.get_forecast(zone_id, zone_type)
+    print(simple_forecast)
     for period in simple_forecast["properties"]["periods"]:
         gateway.insert_simple_forecast(period, zone_id)
     return simple_forecast["properties"]["periods"]
