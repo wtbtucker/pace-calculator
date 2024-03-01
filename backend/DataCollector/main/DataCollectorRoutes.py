@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify
 from EndpointWorker import WeatherEndpointWorker, GeolocatorEndpointWorker
-from backend.DataGateway import DataGateway
+from DataGateway import DataGateway
 data_collector_bp = Blueprint("data_collector", __name__)
 
 def split_zone_url(zone_url: str) -> tuple[str, str]:
