@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, jsonify
 from EndpointWorker import WeatherEndpointWorker, GeolocatorEndpointWorker
 from backend.DataGateway import DataGateway
 data_collector_bp = Blueprint("data_collector", __name__)
@@ -47,4 +47,4 @@ def get_weather():
 def zones():
     worker = WeatherEndpointWorker()
     zone_list = worker.get_zones()
-    return [f"{zone['id']}" for zone in zone_list]
+    return jsonify({'zones': [zone['id'] for zone in zone_list]})

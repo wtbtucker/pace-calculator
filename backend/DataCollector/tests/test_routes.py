@@ -27,7 +27,7 @@ class TestRoutes:
         assert zone_id == 'MAZ014'
         assert zone_type == 'forecast'
 
-    def test_handle_existing_zipcode(self, mock_gateway, mock_weather_worker) -> None:
+    def test_handle_existing_zipcode(self, mock_gateway) -> None:
         zone_id, zone_type = handle_existing_zipcode(self.zipcode_entry, mock_gateway)
 
         # Mock call assertions
