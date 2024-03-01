@@ -1,5 +1,5 @@
 import os, sys; sys.path.append(os.path.dirname(os.path.realpath(__file__)))
-from extensions import db
+from backend.extensions import db
 from flask import Flask
 from DataAnalyzerRoutes import data_analyzer_bp
 
