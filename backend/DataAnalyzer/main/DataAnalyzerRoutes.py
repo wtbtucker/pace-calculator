@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify
-from backend.DataGateway import DataGateway
+from DataGateway import DataGateway
 
 data_analyzer_bp = Blueprint("data_analyzer", __name__)
 
