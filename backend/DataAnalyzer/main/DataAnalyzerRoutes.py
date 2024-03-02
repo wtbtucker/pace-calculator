@@ -19,3 +19,4 @@ def send_message():
     zip_code = '02155'
     pub = Publisher()
     pub.send_zipcode(zip_code)
+    return 'success?'
