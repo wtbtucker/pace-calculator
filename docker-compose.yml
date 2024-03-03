@@ -25,6 +25,8 @@ services:
       - ./backend/:/usr/src/app/backend
     ports:
       - '5002:5000'
+    environment:
+      - CREATE_TABLES=True
     env_file:
       - ./.env.dev
   db:

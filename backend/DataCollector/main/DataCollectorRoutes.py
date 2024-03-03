@@ -3,8 +3,6 @@ from EndpointWorker import WeatherEndpointWorker, GeolocatorEndpointWorker
 from DataGateway import DataGateway
 
 data_collector_bp = Blueprint("data_collector", __name__)
-
-
 def split_zone_url(zone_url: str) -> tuple[str, str]:
     split_url = zone_url.split('/')
     return split_url[5], split_url[4]
@@ -38,6 +36,7 @@ def fetch_and_insert_forecast(gateway: DataGateway, weather_worker: WeatherEndpo
 
 @data_collector_bp.route("/")
 def get_weather():
+    print("hello")
     gateway = DataGateway()
     weather_worker = WeatherEndpointWorker()
     geo_worker = GeolocatorEndpointWorker()
