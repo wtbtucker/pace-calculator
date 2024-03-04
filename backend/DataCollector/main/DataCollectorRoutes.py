@@ -13,11 +13,14 @@ def split_zone_url(zone_url: str) -> tuple[str, str]:
 def handle_new_zipcode(gateway: DataGateway, weather_worker: WeatherEndpointWorker,
                        geo_worker: GeolocatorEndpointWorker, zipcode: str) -> tuple[str, str]:
     lat, long = geo_worker.get_latlng(zipcode)
-    zone_url = weather_worker.get_zone(lat, long)
+    zone_url, gridId, x, y = weather_worker.get_point(lat, long)
+    gridpoint = gateway.fetch_and_insert_gridpoint(gridId, x, y)
     zone_id, zone_type = split_zone_url(zone_url)
     gateway.insert_zone(zone_id, zone_type)
-    gateway.insert_zipcode(zipcode, zone_id)
+    gateway.insert_zipcode(zipcode, zone_id, gridpoint)
     return zone_id, zone_type
+
+
 
 
 def handle_existing_zipcode(zipcode_entry, gateway: DataGateway) -> tuple[str, str]:
@@ -36,7 +39,7 @@ def fetch_and_insert_forecast(gateway: DataGateway, weather_worker: WeatherEndpo
 
 
 @data_collector_bp.route("/")
-def get_weather(ch, method, properties, body):
+def get_simple_forecast(_ch, _method, _properties, body):
     gateway = DataGateway()
     weather_worker = WeatherEndpointWorker()
     geo_worker = GeolocatorEndpointWorker()
@@ -49,6 +52,9 @@ def get_weather(ch, method, properties, body):
         zone_id, zone_type = handle_existing_zipcode(zipcode_entry, gateway)
     return fetch_and_insert_forecast(gateway, weather_worker, zone_id, zone_type)
 
+def get_weather(_ch, _method, _properties, body):
+    pass
+
 
 @data_collector_bp.route("/zones")
 def zones():
@@ -59,4 +65,4 @@ def zones():
 @data_collector_bp.route("/listen")
 def listen():
     receiver = Subscriber()
-    receiver.listen_for_zipcode(get_weather)
+    receiver.listen_for_zipcode(get_simple_forecast)

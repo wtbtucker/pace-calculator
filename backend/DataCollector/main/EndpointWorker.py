@@ -4,11 +4,11 @@ class WeatherEndpointWorker:
     def __init__(self):
         pass
 
-    def get_zone(self, lat: float, lng: float) -> str:
+    def get_point(self, lat: float, lng: float) -> str:
         res = requests.get(f"https://api.weather.gov/points/{lat},{lng}")
         print("Point request status code: " + str(res.status_code))
         properties = res.json()["properties"]
-        return properties["forecastZone"]
+        return properties["forecastZone"], properties["gridId"], properties["gridX"], properties["gridY"]
     
     def get_forecast(self, zone_id: str, type: str) -> str:
         res = requests.get(f"https://api.weather.gov/zones/{type}/{zone_id}/forecast")
