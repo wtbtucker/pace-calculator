@@ -36,7 +36,7 @@ class DataGateway:
         db.session.commit()
     
     def find_weather(self, id):
-        return Weather.query.filter_by(gridpoint=id).first()
+        return Weather.query.filter_by(gridpoint=id).all()
 
     def find_simple_forecast(self, id):
         return SimpleForecasts.query.filter_by(zone=id).all()
@@ -50,13 +50,16 @@ class DataGateway:
     def get_zone(self, id):
         return Zones.query.get_or_404(id)
     
+    def get_gridpoint(self, id):
+        return Gridpoints.query.get_or_404(id)
+    
     def _convert_time(self, start_time: str):
         return datetime.strptime(start_time[:19], "%Y-%m-%dT%H:%M:%S")
     
-    def fetch_and_insert_gridpoint(self, gridId:str, x:int, y:int):
+    def insert_and_return_gridpoint(self, gridId:str, x:int, y:int):
         self.insert_gridpoint(gridId, x, y)
         return self.find_gridpoints(gridId, x, y)
     
-    def fetch_and_insert_zipcode(self, zipcode: str, zone_id: str, gridpoint):
+    def insert_and_return_zipcode(self, zipcode: str, zone_id: str, gridpoint):
         self.insert_zipcode(zipcode, zone_id, gridpoint)
         return self.find_zipcode(zipcode)

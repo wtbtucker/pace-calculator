@@ -15,7 +15,7 @@ def get_forecast(zip_code: str) -> str:
         time.sleep(3)
         zip_code_entry = gateway.find_zipcode(zip_code)
 
-    full_forecast = gateway.find_simple_forecast(zip_code_entry.zone)
+    full_forecast = gateway.find_weather(zip_code_entry.gridpoint)
         
     print('get forecast success')
     return [forecast.as_dict() for forecast in full_forecast]

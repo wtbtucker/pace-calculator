@@ -24,6 +24,9 @@ class Weather(db.Model):
     forecast = db.Column(db.Text)
     gridpoint = db.Column(db.Integer, db.ForeignKey(Gridpoints.id))
 
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
 class SimpleForecasts(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     start_time = db.Column(db.Text)

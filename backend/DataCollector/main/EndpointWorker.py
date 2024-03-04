@@ -15,6 +15,11 @@ class WeatherEndpointWorker:
         print("Forecast status code: " + str(res.status_code))
         return res.json()
     
+    def get_weather(self, wfo: str, grid_x: int, grid_y: str) -> str:
+        res = requests.get(f"https://api.weather.gov/gridpoints/{wfo}/{grid_x},{grid_y}/forecast/hourly")
+        print("Weather status code: " + str(res.status_code))
+        return res.json()
+    
     def get_zones(self) -> str:
         res = requests.get("https://api.weather.gov/zones")
         print("Zones status code: " + str(res.status_code))
