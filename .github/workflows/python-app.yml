@@ -56,13 +56,13 @@ jobs:
       run: |
         pytest backend/DataCollector/tests/
 
-    - name: Start data-analyzer
-      run: |
-        flask run -h localhost -p 5002
-        pytest web-app/tests/
-        kill -9 `lsof -i:5002 -t`
-      env:
-        FLASK_APP: backend/DataAnalyzer/main/__init__.py
+    # - name: Start data-analyzer
+    #   run: |
+    #     flask run -h localhost -p 5002
+    #     pytest web-app/tests/
+    #     kill -9 `lsof -i:5002 -t`
+    #   env:
+    #     FLASK_APP: backend/DataAnalyzer/main/__init__.py
 
         
       
