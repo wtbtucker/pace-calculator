@@ -1,34 +1,6 @@
 version: '3'
 
 services:
-  data-analyzer:
-    tty: true
-    build:
-      context: ./
-      dockerfile: Dockerfile
-    container_name: data-analyzer
-    command: gunicorn -b 0.0.0.0:5001 "backend.DataAnalyzer.main:create_app()"
-    volumes:
-      - ./backend/:/usr/src/app/backend
-    ports:
-      - '5001:5000'
-    env_file:
-      - ./.env.dev
-  data-collector:
-    tty: true
-    build:
-      context: ./
-      dockerfile: Dockerfile
-    container_name: data-collector
-    command: gunicorn -b 0.0.0.0:5002 "backend.DataCollector.main:create_app()"
-    volumes:
-      - ./backend/:/usr/src/app/backend
-    ports:
-      - '5002:5000'
-    environment:
-      - CREATE_TABLES=True
-    env_file:
-      - ./.env.dev
   db:
     image: postgres:14.3
     container_name: weather-database
@@ -39,5 +11,36 @@ services:
       POSTGRES_USER: 'postgres'
       POSTGRES_PASSWORD: 'postgres'
       ADDITIONAL_POSTGRES_DBS: 'weather-test'
+  data-analyzer:
+    tty: true
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: data-analyzer
+#    command: ./wait-for-it.sh db:5432 -- gunicorn -b :5001 "backend.DataAnalyzer.main:create_app()"
+    command: gunicorn -b :5001 "backend.DataAnalyzer.main:create_app()"
+    volumes:
+      - ./backend/:/usr/src/app/backend
+    ports:
+      - '5001:5001'
+    env_file:
+      - ./.env.dev
+  data-collector:
+    depends_on:
+      - db
+    tty: true
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: data-collector
+    command: gunicorn -b :5002 "backend.DataCollector.main:create_app()"
+    volumes:
+      - ./backend/:/usr/src/app/backend
+    ports:
+      - '5002:5002'
+    environment:
+      - CREATE_TABLES=True
+    env_file:
+      - ./.env.dev
 volumes:
   postgres_data:

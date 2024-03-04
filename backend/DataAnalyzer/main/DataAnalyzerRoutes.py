@@ -7,6 +7,7 @@ def get_forecast(zip_code: str) -> str:
     gateway = DataGateway()
     zip_code_entry = gateway.find_zipcode(zip_code)
     full_forecast = gateway.find_simple_forecast(zip_code_entry.zone)
+    print('get forecast success')
     return [forecast.as_dict() for forecast in full_forecast]
 
 @data_analyzer_bp.route("/forecast/<zip_code>")
