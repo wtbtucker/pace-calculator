@@ -9,11 +9,11 @@ class Subscriber:
     def _callback(self, ch, method, properties, body):
         print(f" [x] Received {body}")
 
-    def listen_for_zipcode(self):
+    def listen_for_zipcode(self, callback=_callback):
         self.channel.queue_declare(queue='zipcode')
         self.channel.basic_consume(queue='zipcode',
                                    auto_ack=True,
-                                   on_message_callback=self._callback)
+                                   on_message_callback=callback)
         print(' [*] Waiting for messages')
         self.channel.start_consuming()
         

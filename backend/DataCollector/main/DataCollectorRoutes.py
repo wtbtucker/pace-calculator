@@ -3,6 +3,8 @@ from EndpointWorker import WeatherEndpointWorker, GeolocatorEndpointWorker
 from DataGateway import DataGateway
 from Subscriber import Subscriber
 data_collector_bp = Blueprint("data_collector", __name__)
+
+
 def split_zone_url(zone_url: str) -> tuple[str, str]:
     split_url = zone_url.split('/')
     return split_url[5], split_url[4]
@@ -34,11 +36,12 @@ def fetch_and_insert_forecast(gateway: DataGateway, weather_worker: WeatherEndpo
 
 
 @data_collector_bp.route("/")
-def get_weather():
+def get_weather(ch, method, properties, body):
     gateway = DataGateway()
     weather_worker = WeatherEndpointWorker()
     geo_worker = GeolocatorEndpointWorker()
-    zipcode = '02108'
+    zipcode = body.decode('utf-8')
+    print(zipcode)
     zipcode_entry = gateway.find_zipcode(zipcode)
     if zipcode_entry is None:
         zone_id, zone_type = handle_new_zipcode(gateway, weather_worker, geo_worker, zipcode)
@@ -56,4 +59,4 @@ def zones():
 @data_collector_bp.route("/listen")
 def listen():
     receiver = Subscriber()
-    receiver.listen_for_zipcode()
+    receiver.listen_for_zipcode(get_weather)
