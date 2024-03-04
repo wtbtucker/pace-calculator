@@ -17,6 +17,8 @@ services:
     ports:
       - 5672:5672
   data-analyzer:
+    depends_on:
+      - data-collector
     tty: true
     build:
       context: ./
@@ -33,6 +35,7 @@ services:
   data-collector:
     depends_on:
       - db
+      - rabbit-mq
     tty: true
     build:
       context: ./

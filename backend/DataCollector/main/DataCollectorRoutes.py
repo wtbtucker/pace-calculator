@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify
 from EndpointWorker import WeatherEndpointWorker, GeolocatorEndpointWorker
 from DataGateway import DataGateway
+from Subscriber import Subscriber
 data_collector_bp = Blueprint("data_collector", __name__)
 def split_zone_url(zone_url: str) -> tuple[str, str]:
     split_url = zone_url.split('/')
@@ -51,3 +52,8 @@ def zones():
     worker = WeatherEndpointWorker()
     zone_list = worker.get_zones()
     return jsonify({'zones': [zone['id'] for zone in zone_list]})
+
+@data_collector_bp.route("/listen")
+def listen():
+    receiver = Subscriber()
+    receiver.listen_for_zipcode()
