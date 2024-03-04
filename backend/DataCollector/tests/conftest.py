@@ -7,7 +7,7 @@ from extensions import db
 
 @pytest.fixture()
 def app():
-    app = create_app('postgresql://postgres:postgres@localhost/weather_test')
+    app = create_app('postgresql://postgres:postgres@localhost:5432/weather_test')
     with app.app_context():
         db.create_all()
         gateway = DataGateway()
@@ -43,5 +43,5 @@ def mock_weather_worker(mocker):
 def mock_gateway(mocker):
     mock_instance = Mock()
     mock_instance.get_zone.return_value = Zones(id='MAZ014', type='forecast')
-    mocker.patch('backend.DataGateway', mock_instance)
+    mocker.patch('DataGateway.DataGateway', mock_instance)
     return mock_instance
