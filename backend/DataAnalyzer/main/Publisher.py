@@ -18,16 +18,16 @@ class Publisher:
     def __init__(self):
         # HTTP  internal address for broker hosted on Render
         # RABBITMQ_URL = self._load_url()
-        connection = pika.BlockingConnection(pika.ConnectionParameters('http://rabbitmq:rabbitmq@rabbitmq-1wih:15672'))
-        self.channel = connection.channel
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host='rabbitmq'))
+        self.channel = connection.channel()
 
     # def _load_url(self):
     #     load_dotenv()
     #     return os.getenv('RABBITMQ_URL')
     
-    def send_zipcode(self):
+    def send_zipcode(self, zipcode):
         self.channel.queue_declare(queue='zipcode')
         self.channel.basic_publish(exchange='',
                       routing_key='zipcode',
-                      body='02155')
+                      body=zipcode)
         print("[x] Sent 02155")
