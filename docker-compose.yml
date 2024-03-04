@@ -11,6 +11,11 @@ services:
       POSTGRES_USER: 'postgres'
       POSTGRES_PASSWORD: 'postgres'
       ADDITIONAL_POSTGRES_DBS: 'weather-test'
+  rabbit-mq:
+    image: rabbitmq:latest
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
   data-analyzer:
     tty: true
     build:
