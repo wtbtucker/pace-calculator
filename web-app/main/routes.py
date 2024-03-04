@@ -13,7 +13,7 @@ def index():
 def forecast():
     if request.method == "POST":
         input_text = request.form.get("user_zip_code", "")
-        forecast = requests.get(f"https://pace-calculator-analyzer.onrender.com/forecast/{input_text}")
+        forecast = requests.get(f"https://localhost:5002/forecast/{input_text}")
         print("Get forecast status code: " + str(forecast.status_code))
         return render_template('forecast.html', user_zip_code = input_text, forecast=forecast.json())
     else:

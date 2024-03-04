@@ -55,3 +55,14 @@ jobs:
     - name: Test data-collector
       run: |
         pytest backend/DataCollector/tests/
+
+    - name: Start data-analyzer
+      run: |
+        flask run -h localhost -p 5002
+      env:
+        FLASK_APP: backend/DataAnalyzer/main/__init__.py
+    
+    - name: Test web-app
+      run: |
+        pytest web-app/tests/
+      
