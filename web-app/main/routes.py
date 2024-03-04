@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from flask import request, render_template, Blueprint
 import requests
-from backend.Metrics import zipcode_metric
+from Metrics import zipcode_metric
 from prometheus_client import generate_latest
 
 main = Blueprint("main", __name__)
