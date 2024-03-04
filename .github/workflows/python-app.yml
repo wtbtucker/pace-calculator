@@ -58,11 +58,9 @@ jobs:
 
     - name: Start data-analyzer
       run: |
-        flask run -h localhost -p 5002
+        flask run -h localhost -p 5002 && sleep 2 && pytest web-app/tests/
       env:
         FLASK_APP: backend/DataAnalyzer/main/__init__.py
-    
-    - name: Test web-app
-      run: |
-        pytest web-app/tests/
+
+        
       
