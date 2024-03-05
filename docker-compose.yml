@@ -50,5 +50,18 @@ services:
       - CREATE_TABLES=True
     env_file:
       - ./.env.dev
+  web-app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: web-app
+    command: gunicorn -b :5003 "web-app.main:create_app()"
+    volumes:
+      - ./web-app/:/usr/src/app/web-app
+    ports:
+      - '5003:5003'
+    env_file:
+      - ./.env.dev
+
 volumes:
   postgres_data:

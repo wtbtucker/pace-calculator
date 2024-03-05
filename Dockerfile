@@ -8,7 +8,7 @@ ENV PYTHONUNBUFFERED 1
 ENV PYTHONPATH "${PYTHONPATH}:/usr/src/app/backend"
 
 RUN pip install --upgrade pip
-COPY backend/requirements.txt /usr/src/app/requirements.txt
+COPY requirements.txt /usr/src/app/requirements.txt
 RUN pip install -r requirements.txt
 
 
