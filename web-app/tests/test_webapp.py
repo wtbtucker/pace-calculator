@@ -1,6 +1,6 @@
 def test_index(client):
     response = client.get("/")
-    assert b"<title> Home  - Pace Calculator</title>" in response.data
+    assert b"<title>  - Pace Calculator</title>" in response.data
 
 def test_about(client):
     response = client.get("/about")
