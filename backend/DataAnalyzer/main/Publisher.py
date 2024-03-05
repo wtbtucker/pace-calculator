@@ -18,7 +18,7 @@ class Publisher:
     def __init__(self):
         # HTTP  internal address for broker hosted on Render
         # RABBITMQ_URL = self._load_url()
-        connection = pika.BlockingConnection(pika.ConnectionParameters(host='http://rabbitmq:rabbitmq@rabbitmq-1wih:15672'))
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host='amqp://rabbitmq:rabbitmq@rabbitmq-1wih:5672'))
         self.channel = connection.channel()
 
     # def _load_url(self):

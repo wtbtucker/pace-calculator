@@ -13,7 +13,6 @@ def create_app(database_url='postgresql://weather_0kgp_user:EKj5lznn7a8MkhWfFyLo
     create_tables=os.getenv('CREATE_TABLES', False)
     if create_tables:
         with app.app_context():
-            db.drop_all()
             db.create_all()
 
     app.register_blueprint(data_collector_bp)
