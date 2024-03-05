@@ -2,7 +2,7 @@ import pika
 
 class Subscriber:
     def __init__(self) -> None:
-        connection = pika.BlockingConnection(pika.ConnectionParameters(host='rabbitmq'))
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host='http://rabbitmq:rabbitmq@rabbitmq-1wih:15672'))
         self.channel = connection.channel()
         
     
