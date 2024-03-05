@@ -2,8 +2,6 @@ from DataGateway import DataGateway
 import pytest
 from datetime import datetime
 
-
-
 class TestDataGateway:
     def setup_method(self):
         self.zone = 'MAZ014'
