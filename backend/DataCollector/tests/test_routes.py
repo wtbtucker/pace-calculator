@@ -1,5 +1,5 @@
 import pytest
-from backend.components.Models import Zipcodes
+from Models import Zipcodes
 from backend.components.DataCollectorRoutes import split_zone_url
 from backend.components.DataCollectorRoutes import handle_new_zipcode, handle_existing_zipcode, fetch_and_insert_forecast
 
