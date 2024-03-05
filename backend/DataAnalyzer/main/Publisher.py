@@ -19,7 +19,7 @@ class Publisher:
         # HTTP  internal address for broker hosted on Render
         # RABBITMQ_URL = self._load_url()
         credentials = pika.PlainCredentials('rabbitmq', 'rabbitmq')
-        parameters = pika.ConnectionParameters(host='rabbitmq@rabbitmq-1wih', port=5672, credentials=credentials)
+        parameters = pika.ConnectionParameters(host='rabbitmq-1wih', port=5672, credentials=credentials)
         connection = pika.BlockingConnection(parameters)
         self.channel = connection.channel()
 
