@@ -4,9 +4,14 @@
     <h1>{% block title %} Home {% endblock %}</h1>
     <h1>Welcome!</h1><br>
     <form action="/forecast" method="POST">
-        <input name="user_zip_code">
-        <input type="submit" value="Submit">
         <label for="user_zip_code">Zip Code</label><br>
+        <input name="user_zip_code">
+        <label for="minutes">Minutes</label><br>
+        <input name="minutes">
+        <label for="seconds">Seconds</label><br>
+        <input name="seconds">
+        <input type="submit" value="Submit">
+        
     </form>
     <h3>{{ utc_dt }}</h3>
 {% endblock %}
