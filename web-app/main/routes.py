@@ -23,7 +23,7 @@ def forecast():
             'pace': pace_in_seconds
         }
         print(pace_in_seconds)
-        forecast = requests.get(f"https://pace-calculator-analyzer.onrender.com//forecast/", params=params, timeout=3)
+        forecast = requests.get(f"https://pace-calculator-analyzer.onrender.com/forecast/", params=params, timeout=3)
         print("Get forecast status code: " + str(forecast.status_code))
         return render_template('forecast.html', user_zip_code = zipcode, forecast=forecast.json())
     else:
