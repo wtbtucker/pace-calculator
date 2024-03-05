@@ -9,7 +9,9 @@
         {% for entry in forecast %}
         <div style="padding: 10px; background-color: #EEE; margin: 20px">
             <p style="font-size: 24px">{{ entry.start_time }}</p>
-            <p style="font-size: 24px">{{ entry.weather }}</p>
+            <p style="font-size: 24px">{{ entry.forecast }}</p>
+            <p style="font-size: 24px">{{ entry.temperature }}</p>
+            <p style="font-size: 24px">{{ entry.dew_point }}</p>
         </div>
         {% endfor %}
     </div>
