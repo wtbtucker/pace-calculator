@@ -10,25 +10,25 @@ class PaceAdjuster:
         self.pace = pace
     
     def adjust_pace(self, temperature: float, dew_point: float) -> int:
-        combined_conditions = temperature + self._convert_c_to_f(dew_point)
+        combined_conditions = temperature + dew_point
         if combined_conditions <= 100:
             return self.pace
         elif combined_conditions <= 110:
-            return int(self.pace * 0.995)
+            return int(self.pace / 0.995)
         elif combined_conditions <= 120:
-            return int(self.pace * 0.990)
+            return int(self.pace / 0.990)
         elif combined_conditions <= 130:
-            return int(self.pace * 0.98)
+            return int(self.pace / 0.98)
         elif combined_conditions <= 140:
-            return int(self.pace * 0.97)
+            return int(self.pace / 0.97)
         elif combined_conditions <= 150:
-            return int(self.pace * 0.955)
+            return int(self.pace / 0.955)
         elif combined_conditions <= 160:
-            return int(self.pace * 0.94)
+            return int(self.pace / 0.94)
         elif combined_conditions <= 170:
-            return int(self.pace * 0.92)
+            return int(self.pace / 0.92)
         elif combined_conditions <= 180:
-            return int(self.pace * 0.90)
+            return int(self.pace / 0.90)
         # running in combined conditions over 180 is not recommended
         else:
             return -1
@@ -37,7 +37,11 @@ class PaceAdjuster:
         return (temp * 1.8) + 32
     
     def format_entry(self, entry):
-        entry['pace'] = self.adjust_pace(entry['temperature'], entry['dew_point'])
+        entry['dew_point'] = self._convert_c_to_f(entry['dew_point'])
+        pace_in_seconds = self.adjust_pace(entry['temperature'], entry['dew_point'])
+        minutes = pace_in_seconds // 60
+        seconds = pace_in_seconds % 60
+        entry['pace'] = str(minutes) + ":" + str(seconds).zfill(2)
         return entry
 
 def get_forecast(zip_code: str) -> str:

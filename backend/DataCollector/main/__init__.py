@@ -14,8 +14,9 @@ def create_app(database_url='postgresql://postgres:postgres@db:5432/weather'):
     if create_tables:
         with app.app_context():
             db.create_all()
+            listen()
 
     app.register_blueprint(data_collector_bp)
-    listen()
+    
 
     return app
