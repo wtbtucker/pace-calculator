@@ -2,7 +2,7 @@ import pytest
 from unittest.mock import Mock
 from DataCollector.main import create_app
 from DataGateway import DataGateway
-from Models import Zones
+from Models import Zones, Zipcodes, Gridpoints
 from extensions import db
 
 @pytest.fixture()
@@ -43,5 +43,7 @@ def mock_weather_worker(mocker):
 def mock_gateway(mocker):
     mock_instance = Mock()
     mock_instance.get_zone.return_value = Zones(id='MAZ014', type='forecast')
+    gridpoint_id = Gridpoints(wfo='BOX', grid_x=69, grid_y=93).id
+    mock_instance.insert_and_return_zipcode.return_value = Zipcodes(code='02155', zone='MAZ014')
     mocker.patch('DataGateway.DataGateway', mock_instance)
     return mock_instance

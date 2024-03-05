@@ -25,7 +25,7 @@ class TestDataGateway:
     def test_insert_weather(self, app):
         with app.app_context():
             self.gateway.insert_weather("2024-02-24T10:00:00-05:00",30,-8.33,"Cloudy",self.gridpoint.id)
-            weather_entry = self.gateway.find_weather(self.gridpoint.id)
+            weather_entry = self.gateway.find_weather(self.gridpoint.id)[0]
             assert weather_entry.temperature == 30
             assert weather_entry.dew_point == -8.33
 
