@@ -1,8 +1,8 @@
-from DataGateway import DataGateway
+from backend.components.DataGateway import DataGateway
 import pytest
 from datetime import datetime
 
-from Models import Gridpoints
+from backend.components.Models import Gridpoints
 
 class TestDataGateway:
     def setup_method(self):

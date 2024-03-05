@@ -1,7 +1,7 @@
 import pytest
-from Models import Zipcodes
-from backend.DataCollector.main.DataCollectorRoutes import split_zone_url
-from backend.DataCollector.main.DataCollectorRoutes import handle_new_zipcode, handle_existing_zipcode, fetch_and_insert_forecast
+from backend.components.Models import Zipcodes
+from backend.components.DataCollectorRoutes import split_zone_url
+from backend.components.DataCollectorRoutes import handle_new_zipcode, handle_existing_zipcode, fetch_and_insert_forecast
 
 def test_split_zone_url():
         zone_url = "https://api.weather.gov/zones/forecast/MAZ014"

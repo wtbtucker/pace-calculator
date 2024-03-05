@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from DataGateway import DataGateway
+from backend.components.DataGateway import DataGateway
 from Publisher import Publisher
 import time
 

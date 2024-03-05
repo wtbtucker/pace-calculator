@@ -1,8 +1,8 @@
 import pytest
 from unittest.mock import Mock
 from DataCollector.main import create_app
-from DataGateway import DataGateway
-from Models import Zones, Zipcodes, Gridpoints
+from backend.components.DataGateway import DataGateway
+from backend.components.Models import Zones, Zipcodes, Gridpoints
 from extensions import db
 
 @pytest.fixture()
