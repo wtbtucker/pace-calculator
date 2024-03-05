@@ -14,6 +14,5 @@ class Subscriber:
         self.channel.basic_consume(queue='zipcode',
                                    auto_ack=True,
                                    on_message_callback=callback)
-        print(' [*] Waiting for messages')
         self.channel.start_consuming()
         

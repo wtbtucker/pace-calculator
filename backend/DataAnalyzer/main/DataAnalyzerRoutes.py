@@ -67,6 +67,5 @@ def forecast():
     forecast = get_forecast(zip_code)
     adjuster = PaceAdjuster(pace)
     res = [adjuster.format_entry(entry) for entry in forecast]
-    print(res)
     return jsonify(res)
 

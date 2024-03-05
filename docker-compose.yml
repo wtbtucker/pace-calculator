@@ -33,9 +33,7 @@ services:
     env_file:
       - ./.env.dev
   data-collector:
-    depends_on:
-      - db
-      - rabbit-mq
+    restart: on-failure
     tty: true
     build:
       context: ./
