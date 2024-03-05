@@ -1,0 +1,8 @@
+scrape_configs:
+  - job_name: view_zipcodes
+    scrape_interval: 15s
+    scrape_timeout: 10s
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - web-app:5003

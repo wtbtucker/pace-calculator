@@ -1,17 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{% block title %} Home {% endblock %}</h1>
     <h1>Welcome!</h1><br>
+    <p>Enter your running pace and zipcode for an adjusted workout based on local weather conditions</p>
     <form action="/forecast" method="POST">
-        <label for="user_zip_code">Zip Code</label><br>
-        <input name="user_zip_code">
-        <label for="minutes">Minutes</label><br>
-        <input name="minutes">
-        <label for="seconds">Seconds</label><br>
-        <input name="seconds">
+        <p>
+            <input name="user_zip_code">
+            <label for="user_zip_code">Zip Code</label><br>
+        </p>
+        <p>
+            <input name="minutes">
+            <label for="minutes">Minutes</label><br>
+        </p>
+        <p>
+            <input name="seconds">
+            <label for="seconds">Seconds</label><br>
+        </p>
         <input type="submit" value="Submit">
-        
     </form>
     <h3>{{ utc_dt }}</h3>
 {% endblock %}
